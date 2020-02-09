@@ -1,0 +1,152 @@
+<body>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Project:Etch A Sketch</title>
+
+    <link href="style.css" rel="stylesheet">
+
+
+  </head>
+    <h1>Welcome to Etch-a-Sketch</h1>
+    <button>Reset</button>
+    <div id='play-grid'></div>
+    <script>
+      let gridSize=16;
+      let rows=document.getElementsByClassName('grid-row');
+      let cells=document.getElementsByClassName('grid-cell');
+      let createDiv= document.getElementById('play-grid');
+      let buttons=document.querySelector('button');
+      //console.log(buttons);
+      //let cellSize=960/gridSize;
+
+
+
+
+      //function to create new grid
+      function asksize()
+      {
+        gridSize=prompt('Enter new grid Size');
+        removeCells();
+        removeRows();
+        createGrid();
+      }
+      buttons.addEventListener('click',asksize);
+
+
+      //function to make rows of the grid
+
+      function makeRows(gridSize)
+      {
+        for(let i=0;i<gridSize;i++)
+        {
+          let row=document.createElement('div');
+
+          createDiv.appendChild(row).className='grid-row';
+        }
+
+
+      }
+
+      //function to make grid cells
+
+      function makeCells()
+      {
+        for(let i=0;i<gridSize;i++)
+        {
+          for(let j=0;j<gridSize;j++)
+          {
+            let column=document.createElement('div');
+            column.style.height=`${parseFloat(780/gridSize)}px`;
+            column.style.backgroundColor="";
+            rows[i].appendChild(column).className='grid-cell';
+
+          }
+        }
+
+      }
+      // function to remove Cells
+
+  function removeCells()
+  {
+    for(let i=cells.length-1;i>=0;i--)
+    {
+      cells[i].remove();
+
+
+    }
+  }
+  //console.log(rows);
+  //function to remove remove rows
+
+  function removeRows()
+  {
+    for(let i =rows.length-1;i>=0;i--)
+    {
+      rows[i].remove();
+    }
+  }
+
+      //function to create grid
+
+      function createGrid()
+      {
+        makeRows(gridSize);
+        makeCells(gridSize);
+        createDiv.style.display="grid";
+        createDiv.style.width="840px";
+
+        createDiv.style.gridTemplateColumns=`repeat(${gridSize},auto)`;
+        createDiv.style.border="3px solid black";
+        //createDiv.style.padding="10px";
+        createDiv.style.align="center";
+        //this will fill the grids
+        let cellsFill=document.querySelectorAll('.grid-cell');
+        cellsFill.forEach(cellFill => cellFill.addEventListener('mouseover',changeColor));
+
+
+      }
+      createGrid();
+      //funcntion to get random color
+      function randomColor()
+      {
+        let letters="0123456789abcdef";
+        let rcolor="#";
+        for(let i=0;i<6;i++)
+        {
+          rcolor=rcolor+letters[Math.floor(Math.random()*16)];
+        }
+        return rcolor;
+      }
+
+      //function to change color
+      function changeColor(e)
+      {
+        let color=randomColor();
+          if(e.target.style.opacity==="1"){
+            e.target.style.backgroundColor="black";
+            return;
+          }
+        if(e.target.style.backgroundColor===''){
+          e.target.style.backgroundColor=color;
+          e.target.style.opacity=0.1;
+
+        }
+        else{
+          e.target.style.opacity=parseFloat(e.target.style.opacity)+0.1;
+        }
+
+
+      }
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>
